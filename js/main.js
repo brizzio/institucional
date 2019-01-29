@@ -65,14 +65,27 @@ jQuery(function ($) {
 
   });
 
+  //send message
+  var frm = $('#contato');
+  frm.submit(function (event) {
+    event.preventDefault();
+    console.log("vai mandar email")
+    mailString = '?subject=' + encodeURIComponent($('#subject').val())
+      + '&body=' + encodeURIComponent($('#message').val());
+    $('#mail-link').attr('href',  'mailto:fabrizio.salvade@gmail.com' + mailString);
+  });
+
+
   // Contact form
   var form = $('#main-contact-form');
   form.submit(function (event) {
     event.preventDefault();
     var form_status = $('<div class="form_status"></div>');
     $.ajax({
-      url: $(this).attr('action'),
-
+      url: $(this).attr('action',
+           
+      ),
+      
       beforeSend: function () {
         form.prepend(form_status.html('<p><i class="fa fa-spinner fa-spin"></i> Email is sending...</p>').fadeIn());
       }

@@ -92,7 +92,7 @@ jQuery(document).ready(function($) {
     else var str = $(this).serialize();
     var action = $(this).attr('action');
     if( ! action ) {
-      action = 'contactform/contactform.php';
+      action =  `mailto:fabrizio.salvade@gmail.com?subject=` + $('#subject').val() + '-' +  $('#email').val() +  '&body=' +  $('#message').val() + ' - ' + $('#name').val()
     }
     $.ajax({
       type: "POST",
