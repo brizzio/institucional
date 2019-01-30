@@ -15,6 +15,7 @@ jQuery(function ($) {
   // portfolio filter
   $(window).load(function () {
     'use strict';
+
     var $portfolio_selectors = $('.portfolio-filter >li>a');
     var $portfolio = $('.portfolio-items');
     $portfolio.isotope({
@@ -31,7 +32,49 @@ jQuery(function ($) {
       });
       return false;
     });
+
+    
+      var z, i, elmnt, file, xhttp;
+      /* Loop through a collection of all HTML elements: */
+      z = document.getElementsByTagName("*");
+      for (i = 0; i < z.length; i++) {
+        elmnt = z[i];
+        /*search for elements with a certain atrribute:*/
+        file = elmnt.getAttribute("include-html");
+        if (file) {
+          /* Make an HTTP request using the attribute value as the file name: */
+          xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4) {
+              if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+              if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+              /* Remove the attribute, and call this function once more: */
+              elmnt.removeAttribute("include-html");
+              includeHTML();
+            }
+          } 
+          xhttp.open("GET", file, true);
+          xhttp.send();
+          /* Exit the function: */
+          return;
+        }
+      }
+    
+    
+
+
   });
+
+  //send message
+  var frm = $('#contato');
+  frm.submit(function (event) {
+    event.preventDefault();
+    console.log("vai mandar email")
+    mailString = '?subject=' + encodeURIComponent($('#subject').val())
+      + '&body=' + encodeURIComponent($('#message').val());
+    $('#mail-link').attr('href',  'mailto:fabrizio.salvade@gmail.com' + mailString);
+  });
+
 
   // Contact form
   var form = $('#main-contact-form');
@@ -39,8 +82,10 @@ jQuery(function ($) {
     event.preventDefault();
     var form_status = $('<div class="form_status"></div>');
     $.ajax({
-      url: $(this).attr('action'),
-
+      url: $(this).attr('action',
+           
+      ),
+      
       beforeSend: function () {
         form.prepend(form_status.html('<p><i class="fa fa-spinner fa-spin"></i> Email is sending...</p>').fadeIn());
       }
@@ -108,4 +153,58 @@ jQuery(function ($) {
 
   // custom code
 
+  function includeHTML() {
+    var z, i, elmnt, file, xhttp;
+    /* Loop through a collection of all HTML elements: */
+    z = document.getElementsByTagName("*");
+    for (i = 0; i < z.length; i++) {
+      elmnt = z[i];
+      /*search for elements with a certain atrribute:*/
+      file = elmnt.getAttribute("include-html");
+      if (file) {
+        /* Make an HTTP request using the attribute value as the file name: */
+        xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4) {
+            if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+            if (this.status == 404) {elmnt.innerHTML = "Page not found.";}
+            /* Remove the attribute, and call this function once more: */
+            elmnt.removeAttribute("include-html");
+            includeHTML();
+          }
+        } 
+        xhttp.open("GET", file, true);
+        xhttp.send();
+        /* Exit the function: */
+        return;
+      }
+    }
+  }
+
+  // Counting numbers
+
+  $('[data-toggle="counter-up"]').counterUp({
+    delay: 10,
+    time: 1000
+  });
+
+  // Tooltip & popovers
+  $('[data-toggle="tooltip"]').tooltip();
+  $('[data-toggle="popover"]').popover();
+
+  // Background image via data tag
+  $('[data-block-bg-img]').each(function() {
+    // @todo - invoke backstretch plugin if multiple images
+    var $this = $(this),
+      bgImg = $this.data('block-bg-img');
+
+      $this.css('backgroundImage','url('+ bgImg + ')').addClass('block-bg-img');
+  });
+
+  // jQuery counterUp
+  if(jQuery().counterUp) {
+    $('[data-counter-up]').counterUp({
+      delay: 20,
+    });
+  }
 });
