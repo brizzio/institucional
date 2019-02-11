@@ -1191,6 +1191,15 @@ a.accordion-toggle  i{
 /*************************
 ********* About Us Page CSS ******
 **************************/
+
+#about-us {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(45deg, rgba(97, 60, 5, 0.322), rgba(247, 166, 44, 0.6)), url("../images/construe/imagem1.jpg") center top no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
 .center span {
 	color:#E8CE0E;
 }
